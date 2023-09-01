@@ -1,14 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom'; // React Router의 BrowserRouter 임포트
 import './styles/index.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <Router> {/* Router로 앱을 감싸주기 */}
+  <Router>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </Router>,
+  </Router>
 );

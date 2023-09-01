@@ -3,9 +3,21 @@ import axios from 'axios';
 // 포켓몬 API의 기본 URL
 const baseURL = 'https://pokeapi.co/api/v2';
 
+export async function getKoreanAPI(pokemonName) {
+  try {
+    const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
+    const koreanName = response.data.names.find(nameObj => nameObj.language.name === 'ko').name;
+    console.log(koreanName);
+    return koreanName;
+  } catch (error) {
+    console.error(`Error fetching ${pokemonName} data:`, error);
+    throw error;
+  }
+}
+
 export async function getAllPokemonAPI() {
   try {
-    const response = await axios.get(`${baseURL}/pokemon?limit=40`); // 최대 1000개의 포켓몬을 가져옴
+    const response = await axios.get(`${baseURL}/pokemon?limit=20`); // 최대 1000개의 포켓몬을 가져옴
     const pokemonList = response.data.results;
     return pokemonList;
   } catch (error) {
@@ -17,9 +29,21 @@ export async function getAllPokemonAPI() {
 export async function getPokemonImageURL(pokemonName) {
   try {
     const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
-    const imageURL = response.data.sprites.front_default;
+    const imageURL = response.data.sprites.versions['generation-v']["black-white"]['animated'].front_default;
     console.log(imageURL);
     return imageURL;
+  } catch (error) {
+    console.error(`Error fetching ${pokemonName} data:`, error);
+    throw error;
+  }
+}
+
+export async function getPokemonType(pokemonName){
+  try{
+    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
+    const types = response.data.types;
+    console.log(types);
+    return types; 
   } catch (error) {
     console.error(`Error fetching ${pokemonName} data:`, error);
     throw error;
@@ -58,7 +82,7 @@ export async function getBerryAPI(berryName){
   }
 }
 
-export async function getItemsPI(itemName){
+export async function getItemAPI(itemName){
   try{
     const response = await axios.get(`${baseURL}/item/${itemName}`);
     const data = response.data;
