@@ -38,17 +38,37 @@ export async function getPokemonImageURL(pokemonName) {
   }
 }
 
+export async function getPokemonID(pokemonName) {
+  try {
+    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
+    const id = response.data.id;
+    console.log(id);
+    return id;
+  } catch(error) {
+    console.error(`Error fetching ${pokemonName} data:`, error);
+    throw error;
+  }
+}
+
 export async function getPokemonType(pokemonName){
   try{
     const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
-    const types = response.data.types;
-    console.log(types);
-    return types; 
+    const data = response.data;
+
+    // 포켓몬의 타입 정보를 추출
+    const types = data.types.map(typeInfo => typeInfo.type.name);
+
+    // 최대 2개의 타입만 반환
+    const typeString = types.slice(0, 2).join(" | "); // 타입들을 쉼표와 공백으로 연결
+    console.log(typeString);
+    return typeString;
   } catch (error) {
     console.error(`Error fetching ${pokemonName} data:`, error);
     throw error;
   }
 }
+
+
 
 // 포켓몬의 이미지 URL을 받아오는 함수
 export async function searchPokemonAPI(pokemonName) {
@@ -82,13 +102,36 @@ export async function getBerryAPI(berryName){
   }
 }
 
-export async function getItemAPI(itemName){
+export async function getAllItemAPI(itemName){
+  try {
+    const response = await axios.get(`${baseURL}/item?limit=20`); // 최대 1000개의 포켓몬을 가져옴
+    const itemList = response.data.results;
+    return itemList;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
+
+export async function getKoreanItemAPI(itemName) {
+  try {
+    const response = await axios.get(`${baseURL}/item/${itemName}`);
+    const koreanName = response.data.names.find(nameObj => nameObj.language.name === 'ko').name;
+    console.log(koreanName);
+    return koreanName;
+  } catch (error) {
+    console.error(`Error fetching ${itemName} data:`, error);
+    throw error;
+  }
+}
+
+export async function getItemImageURL (itemName){
   try{
     const response = await axios.get(`${baseURL}/item/${itemName}`);
     const data = response.data;
 
     // 이미지 URL 추출
-    const imageURL = data.sprites.front_default;
+    const imageURL = data.sprites.default;
 
     return imageURL;
   } catch (error) {
