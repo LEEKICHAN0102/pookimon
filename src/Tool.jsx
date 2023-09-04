@@ -34,7 +34,7 @@ function Tool() {
   }, []);
 
   return (
-    <div>
+    <div className="font-custom">
       <Header />
       <div className="grid grid-cols-4 gap-4">
         {itemList.map((item, index) => (

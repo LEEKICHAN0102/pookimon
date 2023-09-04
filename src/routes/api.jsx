@@ -68,24 +68,49 @@ export async function getPokemonType(pokemonName){
   }
 }
 
-
-
-// 포켓몬의 이미지 URL을 받아오는 함수
-export async function searchPokemonAPI(pokemonName) {
+export async function getKoreanPokemonDescription(pokemonName) {
   try {
-    // 포켓몬 정보를 가져옴
-    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
-    const data = response.data;
+    // 한국어로 된 포켓몬 종(species) 정보를 가져옴
+    const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}?language=ko`);
+    const speciesData = response.data;
 
-    // 이미지 URL 추출
-    const imageURL = data.sprites.front_default;
+    // 포켓몬 설명 추출
+    const descriptionArray = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'ko');
+    
+    // 설명 배열을 하나의 문자열로 합치기
+    const description = descriptionArray[0].flavor_text;
 
-    return imageURL;
+    return description;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching Pokémon description in Korean:', error);
     throw error;
   }
 }
+
+export async function getKoreanPokemonAbility(pokemonName){
+  try{
+    
+  }catch(error){
+
+  }
+}
+
+// 포켓몬의 이미지 URL을 받아오는 함수
+// export async function searchPokemonAPI(pokemonName) {
+//   try {
+//     // 포켓몬 정보를 가져옴
+//     const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
+//     const data = response.data;
+
+//     // 이미지 URL 추출
+//     const imageURL = data.sprites.front_default;
+
+//     return imageURL;
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     throw error;
+//   }
+// }
 
 export async function getBerryAPI(berryName){
   try{
@@ -125,6 +150,24 @@ export async function getKoreanItemAPI(itemName) {
   }
 }
 
+export async function getKoreanItemDescription(itemName){
+  try{
+    const response = await axios.get(`${baseURL}/item/${itemName}`);
+    const speciesData = response.data;
+
+    const itemDescriptionArray = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'ko');
+    
+    // 설명 배열을 하나의 문자열로 합치기
+    const koreanItemDescription = itemDescriptionArray[0].text;
+
+    console.log(koreanItemDescription);
+    return koreanItemDescription;
+  }catch (error){
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
+
 export async function getItemImageURL (itemName){
   try{
     const response = await axios.get(`${baseURL}/item/${itemName}`);
@@ -135,6 +178,20 @@ export async function getItemImageURL (itemName){
 
     return imageURL;
   } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
+
+export async function getOfficialArtwork(pokemonName){
+  try{
+    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
+    const data=response.data;
+
+    const officialArtwork=data.sprites.other["official-artwork"].front_default;
+
+    return officialArtwork;
+  }catch (error){
     console.error('Error fetching data:', error);
     throw error;
   }

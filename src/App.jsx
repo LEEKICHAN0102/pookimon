@@ -41,6 +41,7 @@ function App() {
           koreanNamesData[pokemon.name] = await getKoreanAPI(pokemon.name);
         }
         setKoreanNames(koreanNamesData);
+
       } catch (error) {
         console.error('Error:', error);
       }
@@ -50,9 +51,9 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="font-custom">
       <Header />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4 px-16">
         {pokemonList.map((pokemon, index) => (
           <Card
             key={index}
