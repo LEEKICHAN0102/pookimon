@@ -1,3 +1,9 @@
 ### 포켓몬 API _ fintendo-pokemon
 
-# 코딩이 그리워서 만들어봄 ㅠㅠ
+> 구현 해야 할 목록 우선 순위
+>> Edit Modal Style 
+>> Infinite Scroll
+>> Edit Loading Statement
+>> Search
+>> use React-hook-form Login
+>> DB , Server
