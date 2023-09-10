@@ -1,29 +1,7 @@
-import React,{useState,useEffect} from "react";
-import { getAllItemAPI,getKoreanItemDescription } from "../routes/api";
+import React from "react";
 import ItemDetail from "./itemDetail";
 
-function Item({item,koreanName,imageUrl}){
-  const [itemList,setItemList]=useState([]);
-  const [koreanItemDescription,setKoreanItemDescription]=useState({});
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const itemData = await getAllItemAPI();
-        setItemList(itemData);
-  
-        const koreanItemDescriptionData = {};
-        for (const item of itemData) {
-          koreanItemDescriptionData[item.name] = await getKoreanItemDescription(item.name);
-        }
-        setKoreanItemDescription(koreanItemDescriptionData);
-  
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    }
-    fetchData();
-  }, []);
+function Item({item,koreanName,imageUrl,koreanItemDescription}){
 
   return(
     <div className="flex flex-col  rounded-xl border-4 border-blue-200 w-full h-56">
@@ -38,7 +16,7 @@ function Item({item,koreanName,imageUrl}){
         <ItemDetail 
           koreanName={koreanName}
           imageUrl={imageUrl}
-          koreanItemDescription={koreanItemDescription[item.name]}
+          koreanItemDescription={koreanItemDescription}
         />
       </div>
     </div>

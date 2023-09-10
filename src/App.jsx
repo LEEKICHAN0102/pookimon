@@ -1,46 +1,91 @@
 import React, { useState, useEffect } from "react";
-import { getAllPokemonAPI, getPokemonImageURL, getKoreanAPI,getPokemonID, getPokemonType } from "./routes/api";
+import { 
+  getAllPokemonAPI, 
+  getPokemonImageURL, 
+  getKoreanAPI, 
+  getPokemonID, 
+  getPokemonType,
+  getKoreanPokemonType,
+  getKoreanDescription,
+  getOfficialArtwork,
+  getKoreanPokemonDivision,
+  getPokemonAbilities,
+  getKoreanPokemonAbilities, 
+} from "./routes/api";
 import Card from "./components/pokemonCard.jsx"; // Card 컴포넌트 임포트
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
+import { useInView } from "react-intersection-observer";
 
 function App() {
+  const LIMIT_PER_PAGE = 20;
+
   const [pokemonList, setPokemonList] = useState([]);
-  const [pokemonId, setPokemonId]= useState({});
+  const [pokemonId, setPokemonId] = useState({});
   const [pokemonType, setPokemonType] = useState({});
+  const [pokemonAbilities, setPokemonAbilities] = useState({});
+  const [koreanPokemonType,setKoreanPokemonType]=useState({});
   const [imageUrls, setImageUrls] = useState({});
   const [koreanNames, setKoreanNames] = useState({});
+  const [koreanDescription,setKoreanDescription] = useState({});
+  const [officialArtwork,setOfficialArtwork]=useState({});
+  const [koreanDivision , setKoreanDivision]=useState({});
+  const [koreanAbilities,setKoreanAbilities]=useState({});
+  const [page, setPage] = useState(0);
+
+  const [ref, inView] = useInView(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const pokemonData = await getAllPokemonAPI();
-        setPokemonList(pokemonData);
+        const offset = (page - 1) * LIMIT_PER_PAGE;
+        const pokemonData = await getAllPokemonAPI(offset);
 
+        // 기존 데이터와 새로운 데이터를 병합
+        setPokemonList((prevList) => {
+          console.log("Prev:", prevList, "Data:", pokemonData);
+          
+          const newList = [...prevList, ...pokemonData]; 
+          
+          console.log("New:",newList);
+
+          return newList; 
+        });
+
+        // 나머지 데이터도 업데이트
         const id = {};
-        for (const pokemon of pokemonData) {
-          id[pokemon.name]= await getPokemonID(pokemon.name);
-        }
-        setPokemonId(id);
-
-        const typeData = {}; // 타입 데이터를 저장할 객체
-
-        // 각 포켓몬의 타입 정보를 가져와서 typeData에 저장
-        for (const pokemon of pokemonData) {
-          typeData[pokemon.name] = await getPokemonType(pokemon.name);
-        }
-        setPokemonType(typeData);
-
+        const typeData = {};
         const urls = {};
-        for (const pokemon of pokemonData) {
-          urls[pokemon.name] = await getPokemonImageURL(pokemon.name);
-        }
-        setImageUrls(urls);
-
         const koreanNamesData = {};
+        const abilitiesData = {};
+        const koreanPokemonTypesData = {};
+        const koreanDescriptionData = {};
+        const officialArtworkData = {};
+        const koreanDivisionData = {};
+        const koreanAbilitiesData={};
+
         for (const pokemon of pokemonData) {
+          id[pokemon.name] = await getPokemonID(pokemon.name);
+          typeData[pokemon.name] = await getPokemonType(pokemon.name);
+          abilitiesData[pokemon.name]=await getPokemonAbilities(pokemon.name);
+          koreanPokemonTypesData[pokemon.name] = await getKoreanPokemonType(pokemon.name);
+          urls[pokemon.name] = await getPokemonImageURL(pokemon.name);
           koreanNamesData[pokemon.name] = await getKoreanAPI(pokemon.name);
+          koreanDescriptionData[pokemon.name] = await getKoreanDescription(pokemon.name);
+          officialArtworkData[pokemon.name] = await getOfficialArtwork(pokemon.name);
+          koreanDivisionData[pokemon.name] = await getKoreanPokemonDivision(pokemon.name);
+          koreanAbilitiesData[pokemon.name]=await getKoreanPokemonAbilities(pokemon.name);
         }
+
+        setPokemonId(id);
+        setPokemonType(typeData);
+        setPokemonAbilities(abilitiesData);
+        setKoreanPokemonType(koreanPokemonTypesData);
+        setImageUrls(urls);
         setKoreanNames(koreanNamesData);
+        setKoreanDescription(koreanDescriptionData);
+        setOfficialArtwork(officialArtworkData);
+        setKoreanDivision(koreanDivisionData);
+        setKoreanAbilities(koreanAbilitiesData);
 
       } catch (error) {
         console.error('Error:', error);
@@ -48,23 +93,42 @@ function App() {
     }
 
     fetchData();
-  }, []);
+
+  }, [page]);
+
+
+  // 페이지 로드시 uploadData 함수 호출
+  useEffect(() => {
+    const uploadData = () => {
+      if (inView) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+    uploadData();
+  }, [inView]);
 
   return (
     <div className="font-custom">
       <Header />
       <div className="grid grid-cols-4 gap-4 px-16">
-        {pokemonList.map((pokemon, index) => (
+        {[...pokemonList].map((pokemon, index) => (
           <Card
             key={index}
             pokemon={pokemon}
             pokemonId={pokemonId[pokemon.name]}
+            pokemonAbilities={pokemonAbilities[pokemon.name]}
             imageUrl={imageUrls[pokemon.name]}
-            koreanName={koreanNames[pokemon.name]} // 한국어 이름 전달
-            pokemonType={pokemonType[pokemon.name]} // 타입 정보 전달
+            koreanName={koreanNames[pokemon.name]} 
+            pokemonType={pokemonType[pokemon.name]}
+            koreanPokemonType={koreanPokemonType[pokemon.name]} 
+            koreanDescription={koreanDescription[pokemon.name]}
+            officialArtwork={officialArtwork[pokemon.name]}
+            koreanDivision={koreanDivision[pokemon.name]}
+            koreanAbilities={koreanAbilities[pokemon.name]}
           />
         ))}
       </div>
+      <div ref={ref}></div>
     </div>
   );
 }

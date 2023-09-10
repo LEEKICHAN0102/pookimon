@@ -5,5 +5,3 @@
 >> Infinite Scroll
 >> Edit Loading Statement
 >> Search
->> use React-hook-form Login
->> DB , Server
