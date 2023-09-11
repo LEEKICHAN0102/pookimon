@@ -279,3 +279,17 @@ export async function getOfficialArtwork(pokemonName){
     throw error;
   }
 }
+
+export async function getShinyOfficialArtwork(pokemonName){
+  try{
+    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
+    const data=response.data;
+
+    const shinyArtwork=data.sprites.other["official-artwork"].front_shiny;
+
+    return shinyArtwork;
+  }catch (error){
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
