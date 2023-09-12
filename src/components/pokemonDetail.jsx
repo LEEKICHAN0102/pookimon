@@ -25,14 +25,26 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
 
   return (
     <>
-      <Button className="text-black mb-4 bg-blue-100 w-24 h-6 rounded-lg hover:scale-105  transition-all" onClick={() => props.setOpenModal('dismissible')}>상세 정보</Button>
-      <Modal className=" border-gray-300 border-2 font-custom w-1/2 h-4/5 bg-white  rounded-xl m-auto " dismissible show={props.openModal === 'dismissible'} onClose={() => props.setOpenModal(undefined)}>
-        <Modal.Header className="flex items-center justify-center pt-8">{koreanName}</Modal.Header>
-        <Modal.Body>
+      <Button
+  className="text-black mb-4 bg-blue-100 w-24 h-6 rounded-lg hover:scale-105  transition-all"
+  onClick={() => {
+    props.setOpenModal('dismissible');
+  }}
+>
+  상세 정보
+</Button>
+      <Modal className="border-gray-300 border-2 font-custom w-1/2 h-4/5 bg-white  rounded-xl m-auto"
+      dismissible show={props.openModal === 'dismissible' } onClose={() => {
+        props.setOpenModal(undefined);
+        setIsShiny(false);
+      }}>
+        <Modal.Header className="flex items-end justify-end pt-8 pr-8" ></Modal.Header>
+        <Modal.Body className="mt-8">
+          <div className="flex justify-center items-center">{koreanName}</div>
           <LazyLoad className="flex items-center justify-center pt-4">
             <img src={imageUrl} alt="pokemonName" />
           </LazyLoad>
-          <div className="mt-4 flex justify-center items-center">
+          <div className="mt-4 flex justify-center items-center" >
             <p>{koreanDivision}</p>
           </div>
           <div className="flex justify-center items-center mt-4">
@@ -53,7 +65,7 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
           <div className="mt-8 flex justify-center items-center px-36">
             <p>{koreanDescription}</p>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 px-32">
             <p>{koreanAbilities}</p>
           </div>
           <Toggle className="flex justify-end items-end px-36" onClick={handleToggleClick} />

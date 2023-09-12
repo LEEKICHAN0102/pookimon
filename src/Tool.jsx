@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getKoreanItemAPI, getAllItemAPI,getItemImageURL,getKoreanItemDescription } from "./routes/api";
+import { 
+  getKoreanItemAPI, 
+  getAllItemAPI,
+  getItemImageURL,
+  getKoreanItemDescription 
+} from "./routes/api";
 import Item from "./components/itemCard";
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
 import { useInView } from "react-intersection-observer";
@@ -22,26 +27,24 @@ function Tool() {
         const itemData = await getAllItemAPI(offset);
         
         setItemList((prevItemList)=> {
-          return [...prevItemList,...itemData]
+          const newList = [...prevItemList,...itemData];
+          return newList
         });
         
         const koreanNamesData = {};
+        const itemImageUrls = {};
+        const koreanItemDescriptionData = {};
+
         for (const item of itemData) {
           koreanNamesData[item.name] = await getKoreanItemAPI(item.name);
-        }
-        setKoreanNames(koreanNamesData);
-
-        const itemImageUrls = {};
-        for (const item of itemData){
           itemImageUrls[item.name] = await getItemImageURL(item.name);
-        }
-        setItemImageUrls(itemImageUrls);
-
-        const koreanItemDescriptionData = {};
-        for (const item of itemData) {
           koreanItemDescriptionData[item.name] = await getKoreanItemDescription(item.name);
         }
-        setKoreanItemDescription(koreanItemDescriptionData);
+
+        setKoreanNames((prev)=>({...prev,...koreanNamesData}));
+        setItemImageUrls((prev)=>({...prev,...itemImageUrls}));
+        setKoreanItemDescription((prev)=>({...prev,...koreanItemDescriptionData}));
+
       } catch(error){
         console.error('Error:', error);
       }

@@ -111,7 +111,7 @@ function App() {
   console.log({pokemonList,imageUrls})
 
   return (
-    <div className="font-custom">
+    <div className="font-custom ">
       <Header />
       <div className="grid grid-cols-4 gap-4 px-16">
         {pokemonList.map((pokemon, index) => (
