@@ -108,7 +108,7 @@ function App() {
     uploadData();
   }, [inView]);
 
-  console.log({pokemonList,imageUrls})
+  // console.log({pokemonList,imageUrls})
 
   return (
     <div className="font-custom ">

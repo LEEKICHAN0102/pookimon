@@ -18,7 +18,15 @@ export async function getAllPokemonAPI(offset) {
   try {
     const response = await axios.get(`${baseURL}/pokemon?offset=${offset}&limit=20`); // 최대 1000개의 포켓몬을 가져옴
     const pokemonList = response.data.results;
-    return pokemonList;
+
+    const processedPokemonList = pokemonList.map((pokemon) => {
+      if (pokemon.name === "deoxys-normal") {
+        return { name: "deoxys-normal", url: pokemon.url };
+      }
+      return pokemon;
+    });
+
+    return processedPokemonList;
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
@@ -71,7 +79,7 @@ export async function getPokemonType(pokemonName) {
 export async function getKoreanPokemonType (pokemonName){
   try {
     // 포켓몬 데이터 엔드포인트에 요청을 보냅니다.
-    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
     const data = response.data;
 
     // 포켓몬의 타입 정보를 추출합니다.
@@ -148,7 +156,7 @@ export async function getPokemonAbilities(pokemonName){
     const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
     const data = response.data;
 
-    if (!data || !data.types || data.types.length === 0) {
+    if (!data || !data.abilities || data.abilities.length === 0) {
       // 데이터가 없거나 타입 정보가 없는 경우 기본값 또는 에러 처리를 수행할 수 있습니다.
       return "Unknown Abilities"; // 또는 다른 기본값 설정
     }
@@ -163,32 +171,39 @@ export async function getPokemonAbilities(pokemonName){
 }
 
 export async function getKoreanPokemonAbilities(pokemonName){
-  try{
+  try {
     const response = await axios.get(`${baseURL}/pokemon/${pokemonName}`);
     const data = response.data;
 
-    if (!data || !data.types || data.types.length === 0) {
-      // 데이터가 없거나 타입 정보가 없는 경우 기본값 또는 에러 처리를 수행할 수 있습니다.
-      return "Unknown Abilities"; // 또는 다른 기본값 설정
+    if (!data || !data.abilities || data.abilities.length === 0) {
+      // 데이터가 없거나 능력 정보가 없는 경우 기본값 또는 에러 처리를 수행할 수 있습니다.
+      return [{ name: "Unknown Ability", description: "No description available" }]; // 또는 다른 기본값 설정
     }
 
-    const pokemonAbilities = data.abilities.map((abilityInfo) => {
+    // 능력 정보 배열에서 각 능력의 이름과 설명을 가져와 객체로 반환합니다.
+    const koreanAbilities = data.abilities.map((abilityInfo) => {
+      const abilityName = abilityInfo.ability.name;
+
       // 능력 정보의 URL로 이동합니다.
-      return axios.get(abilityInfo.ability.url);
-    });
-
-    // 모든 능력 정보를 병렬로 가져옵니다.
-    const AbilitiesResponses = await Promise.all(pokemonAbilities);
-
-    // 각 능력 정보에서 한국어로 된 이름을 찾습니다.
-    const koreanAbilities = AbilitiesResponses.map((abilityResponse) => {
-      const names = abilityResponse.data.names;
-      const koreanNameInfo = names.find((nameInfo) => nameInfo.language.name === 'ko');
-      return koreanNameInfo ? koreanNameInfo.name : '번역 없음';
+      return axios.get(abilityInfo.ability.url)
+        .then((abilityResponse) => {
+          const namesEntires = abilityResponse.data.names;
+          const koreanAbilitiesNameInfo = namesEntires.find((entry)=>entry.language.name === 'ko');
+          const koreanAbilitiesNames = koreanAbilitiesNameInfo ? koreanAbilitiesNameInfo.name : '번역 없음';
+          const flavorTextEntries = abilityResponse.data.flavor_text_entries;
+          // 원하는 언어("ko"로 설정)에 해당하는 설명을 찾습니다.
+          const koreanDescriptionInfo = flavorTextEntries.find((entry) => entry.language.name === 'ko');
+          const koreanDescription = koreanDescriptionInfo ? koreanDescriptionInfo.flavor_text : '번역 없음';
+          return { name: koreanAbilitiesNames, description: koreanDescription };
+        })
+        .catch((error) => {
+          console.error(`Error fetching description for ability "${abilityName}":`, error);
+          return { name: abilityName, description: '번역 없음' };
+        });
     });
     
-    return koreanAbilities;
-  }catch(error){
+    return Promise.all(koreanAbilities);
+  } catch(error){
     console.error('Error fetching data:', error);
     throw error;
   }
