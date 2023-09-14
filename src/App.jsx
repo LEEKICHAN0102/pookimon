@@ -17,7 +17,6 @@ import Card from "./components/pokemonCard.jsx"; // Card 컴포넌트 임포트
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
 import { useInView } from "react-intersection-observer";
 
-
 function App() {
   const LIMIT_PER_PAGE = 20;
 
@@ -113,7 +112,7 @@ function App() {
   return (
     <div className="font-custom ">
       <Header />
-      <div className="grid grid-cols-4 gap-4 px-16">
+      <div className="px-16 sm:grid sm:grid-cols-1 md:grid md:grid-cols-2 grid grid-cols-4 gap-4 mt-8">
         {pokemonList.map((pokemon, index) => (
           <Card
             key={index}

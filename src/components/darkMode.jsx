@@ -1,25 +1,27 @@
 import React, { useState } from 'react'
 
-function DarkMode ({className}){
-  const [isChecked, setIsChecked] = useState(false)
+function DarkMode (){
+// 다크 모드 상태를 저장하는 useState
+const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked)
-  }
+// 다크 모드 토글 핸들러
+const handleDarkModeToggle = () => {
+  setIsDarkMode(!isDarkMode);
+};
 
   return (
     <div className='flex justify-end items-end mb-4 px-16 rounded-xl'>
       <label className='themeSwitcherThree relative inline-flex cursor-pointer select-none items-center'>
         <input
           type='checkbox'
-          checked={isChecked}
-          onChange={handleCheckboxChange}
+          checked={isDarkMode}
+          onChange={handleDarkModeToggle}
           className='sr-only'
         />
         <div className='shadow-card flex h-[46px] w-[82px] items-center justify-center rounded-md bg-gray-300'>
           <span
             className={`flex h-9 w-9 items-center justify-center rounded ${
-              !isChecked ? 'bg-primary text-white' : 'text-body-color'
+              !isDarkMode ? 'bg-primary text-white' : 'text-body-color'
             }`}
           >
             <svg
@@ -46,7 +48,7 @@ function DarkMode ({className}){
           </span>
           <span
             className={`flex h-9 w-9 items-center justify-center rounded ${
-              isChecked ? 'bg-primary text-white' : 'text-body-color'
+              isDarkMode ? 'bg-primary text-white' : 'text-body-color'
             }`}
           >
             <svg

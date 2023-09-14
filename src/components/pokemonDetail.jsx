@@ -45,18 +45,18 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
       </Button>
       {openModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-        <Modal className="border-gray-300 border-2 font-custom w-1/2 h-4/5 bg-white  rounded-xl m-auto"
+        <Modal className="w-4/5 h-4/5 border-gray-300 border-2 font-custom md:w-2/3 md:h-4/5 lg:w-1/2 lg:h-4/5 bg-white  rounded-xl m-auto"
         dismissible show={props.openModal === 'dismissible' } onClose={() => {
           props.setOpenModal(undefined);
           setIsShiny(false);
         }}>
           <Modal.Header className="flex items-end justify-end pt-8 pr-8"></Modal.Header>
-            <Modal.Body className="mt-8">
-            <div className="flex justify-center items-center">{koreanName}</div>
+            <Modal.Body className="sm:mt-4 md:mt-6 lg:mt-8">
+            <div className="flex justify-center items-center md:mb-2 lg:mb-4">{koreanName}</div>
             <LazyLoad className="flex items-center justify-center pt-4">
-              <img src={imageUrl} alt="pokemonName" />
+              <img src={imageUrl} alt="pokemonName" className="md:scale-125 lg:scale-150"/>
             </LazyLoad>
-            <div className="mt-4 flex justify-center items-center" >
+            <div className="mt-4 flex justify-center items-center md:mt-6 lg:mt-8" >
               <p>{koreanDivision}</p>
             </div>
             <div className="flex justify-center items-center mt-4">
@@ -74,31 +74,30 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
               : null
             }
             </div>
-            <div className="mt-8 flex justify-center items-center px-36">
+            <div className="px-4 mt-4 md:mt-6 lg:mt-8 flex justify-center items-center md:text-sm md:px-28 lg:px-36">
               <p>{koreanDescription}</p>
             </div>
-            <div className="mt-8 flex justify-center items-center">
-              <div className="mt-8 flex justify-center items-center w-1/3 h-8 rounded-2xl bg-gray-300">
+            <div className="text-xs mt-4  lg-mt-8 flex justify-center items-center md:text-md lg:text-lg">
+              <div className="lg:mt-8 md:mt-6 mt-4 flex justify-center items-center w-1/3 h-8 rounded-2xl bg-gray-300">
                 <span className="font-semibold">{koreanName}</span>
                 의 특성
               </div>
             </div>
-            <div className="mt-8 px-36">
+            <div className="mt-8 md:px-24 lg:px-36">
               {koreanAbilities.map((ability, index) => (
                 <div key={index}>
-                  <p><span className="text-lg font-semibold">{ability.name}</span>: {ability.description}</p>
+                  <p className="text-sm px-4 md:text-md lg:text-lg"><span className="text-sm md:text-md lg:text-lg font-semibold">{ability.name}</span>: {ability.description}</p>
                 </div>
               ))}
             </div>
-            <Toggle className="flex justify-end items-end px-36 mt-8" onClick={handleToggleClick} />
+            <Toggle className="px-4 flex justify-end items-end md:px-24 lg:px-36 mt-8" onClick={handleToggleClick} />
             <LazyLoad className="flex justify-center items-center">
               {currentArtwork ? (
-              <img src={currentArtwork} alt="pokemonName" />
+              <img  src={currentArtwork} alt="pokemonName" className="w-[50%] sm:w-1/2 md:w-55 lg:w-3/4"/>
                 ) : (
               <Loader />
               )}
             </LazyLoad>
-              <span className="flex justify-center items-center">- Official Artwork -</span>
           </Modal.Body>
         </Modal>
         </div>
