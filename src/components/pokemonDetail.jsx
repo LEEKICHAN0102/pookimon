@@ -10,6 +10,7 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
   const [openModal, setOpenModal] = useState();
   const [isShiny, setIsShiny] = useState(false);
   const props = { openModal, setOpenModal };
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (openModal) {
@@ -33,25 +34,35 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
     return colors[type] || "#FFFFFF"; // 타입 정보가 없으면 기본 색상 사용
   }
   
+  useEffect(() => {
+    if (imageUrl) {
+      setIsLoading(false);
+    }
+  }, [imageUrl]);
+
   return (
     <>
       <Button
-        className="text-black mb-4 bg-blue-100 w-24 h-6 rounded-lg hover:scale-105  transition-all"
+        className={`text-black mb-4 bg-blue-100 w-24 h-6 rounded-lg hover:scale-105 transition-all ${
+          isLoading ? "pointer-events-none opacity-50" : "" // isLoading이 true이면 비활성화 스타일 적용
+        }`}
         onClick={() => {
-        props.setOpenModal('dismissible');
+          if (!isLoading) {
+            props.setOpenModal("dismissible");
+          }
         }}
       >
         상세 정보
       </Button>
       {openModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-        <Modal className="w-4/5 h-4/5 border-gray-300 border-2 font-custom md:w-2/3 md:h-4/5 lg:w-1/2 lg:h-4/5 bg-white  rounded-xl m-auto"
+        <Modal className="w-4/5 h-4/5 border-gray-300 border-2 font-custom md:w-2/3 md:h-4/5 lg:w-1/2 lg:h-4/5 bg-white  rounded-sm m-auto"
         dismissible show={props.openModal === 'dismissible' } onClose={() => {
           props.setOpenModal(undefined);
           setIsShiny(false);
         }}>
           <Modal.Header className="flex items-end justify-end pt-8 pr-8"></Modal.Header>
-            <Modal.Body className="sm:mt-4 md:mt-6 lg:mt-8">
+            <Modal.Body className="text-xs mt-4 md:text-sm lg:text-lg md:mt-6 lg:mt-8">
             <div className="flex justify-center items-center md:mb-2 lg:mb-4">{koreanName}</div>
             <LazyLoad className="flex items-center justify-center pt-4">
               <img src={imageUrl} alt="pokemonName" className="md:scale-125 lg:scale-150"/>
@@ -78,7 +89,7 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
               <p>{koreanDescription}</p>
             </div>
             <div className="text-xs mt-4  lg-mt-8 flex justify-center items-center md:text-md lg:text-lg">
-              <div className="lg:mt-8 md:mt-6 mt-4 flex justify-center items-center w-1/3 h-8 rounded-2xl bg-gray-300">
+              <div className="lg:mt-8 md:mt-6 mt-4 flex justify-center items-center w-1/2 h-8 rounded-2xl bg-gray-300">
                 <span className="font-semibold">{koreanName}</span>
                 의 특성
               </div>
@@ -86,7 +97,7 @@ function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemon
             <div className="mt-8 md:px-24 lg:px-36">
               {koreanAbilities.map((ability, index) => (
                 <div key={index}>
-                  <p className="text-sm px-4 md:text-md lg:text-lg"><span className="text-sm md:text-md lg:text-lg font-semibold">{ability.name}</span>: {ability.description}</p>
+                  <p className="text-sm px-4 md:text-md lg:text-lg mt-2"><span className="text-sm md:text-md lg:text-lg font-semibold">{ability.name}</span>: {ability.description}</p>
                 </div>
               ))}
             </div>

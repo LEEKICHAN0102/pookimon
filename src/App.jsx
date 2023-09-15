@@ -112,7 +112,7 @@ function App() {
   return (
     <div className="font-custom ">
       <Header />
-      <div className="px-16 sm:grid sm:grid-cols-1 md:grid md:grid-cols-2 grid grid-cols-4 gap-4 mt-8">
+      <div className="px-16 sm:grid sm:grid-cols-1 md:grid md:grid-cols-2 grid grid-cols-4 gap-4 mt-32">
         {pokemonList.map((pokemon, index) => (
           <Card
             key={index}
