@@ -5,6 +5,8 @@ const baseURL = 'https://pokeapi.co/api/v2';
 
 export async function getKoreanAPI(pokemonName) {
   try {
+    pokemonName = pokemonName.split('-')[0];
+
     const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
     const koreanName = response.data.names.find(nameObj => nameObj.language.name === 'ko').name;
     return koreanName;
@@ -19,14 +21,7 @@ export async function getAllPokemonAPI(offset) {
     const response = await axios.get(`${baseURL}/pokemon?offset=${offset}&limit=20`); // 최대 1000개의 포켓몬을 가져옴
     const pokemonList = response.data.results;
 
-    const processedPokemonList = pokemonList.map((pokemon) => {
-      if (pokemon.name === "deoxys-normal") {
-        return { name: "deoxys-normal", url: pokemon.url };
-      }
-      return pokemon;
-    });
-
-    return processedPokemonList;
+    return pokemonList;
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
@@ -107,6 +102,7 @@ export async function getKoreanPokemonType (pokemonName){
 
 export async function getKoreanDescription(pokemonName) {
   try {
+    pokemonName = pokemonName.split('-')[0];
     // 한국어로 된 포켓몬 종(species) 정보를 가져옴
     const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}?language=ko`);
     const speciesData = response.data;
@@ -131,6 +127,8 @@ export async function getKoreanDescription(pokemonName) {
 
 export async function getKoreanPokemonDivision(pokemonName) {
   try {
+    pokemonName = pokemonName.split('-')[0];
+    
     const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
     const speciesData = response.data;
 
