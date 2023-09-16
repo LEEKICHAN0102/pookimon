@@ -5,11 +5,15 @@ const baseURL = 'https://pokeapi.co/api/v2';
 
 export async function getKoreanAPI(pokemonName) {
   try {
-    pokemonName = pokemonName.split('-')[0];
-
-    const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
-    const koreanName = response.data.names.find(nameObj => nameObj.language.name === 'ko').name;
-    return koreanName;
+    if(pokemonName.includes("-")){
+      const exception = await getPokemonID(pokemonName);
+      const exceptionResponse = await axios.get(`${baseURL}/pokemon-species/${exception}`);
+      const exceptionReturn = exceptionResponse.data.names.find(nameObj => nameObj.language.name === 'ko').name;
+      return exceptionReturn;
+    } 
+      const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
+      const koreanName = response.data.names.find(nameObj => nameObj.language.name === 'ko').name;
+      return koreanName;
   } catch (error) {
     console.error(`Error fetching ${pokemonName} data:`, error);
     throw error;
@@ -102,10 +106,25 @@ export async function getKoreanPokemonType (pokemonName){
 
 export async function getKoreanDescription(pokemonName) {
   try {
-    pokemonName = pokemonName.split('-')[0];
-    // 한국어로 된 포켓몬 종(species) 정보를 가져옴
+    if(pokemonName.includes("-")){
+      const exception = await getPokemonID(pokemonName);
+      const exceptionResponse = await axios.get(`${baseURL}/pokemon-species/${exception}`);
+      const exceptionData = exceptionResponse.data;
+
+      const exceptionArray = exceptionData.flavor_text_entries.filter(entry => entry.language.name === 'ko');
+      if (exceptionArray.length > 0) {
+        const exceptionDescription = exceptionArray[0].flavor_text;
+        return exceptionDescription;
+      } else {
+        // 'ko' 언어로 된 항목이 없을 때 처리
+        console.error('No Korean description found for the Pokémon.');
+        return null;
+      }
+    } 
+
     const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}?language=ko`);
     const speciesData = response.data;
+    
 
     // 포켓몬 설명 추출
     const descriptionArray = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'ko');
@@ -127,7 +146,23 @@ export async function getKoreanDescription(pokemonName) {
 
 export async function getKoreanPokemonDivision(pokemonName) {
   try {
-    pokemonName = pokemonName.split('-')[0];
+    if(pokemonName.includes("-")){
+      const exception = await getPokemonID(pokemonName);
+      const exceptionResponse = await axios.get(`${baseURL}/pokemon-species/${exception}`);
+      const exceptionData = exceptionResponse.data;
+
+      const exceptionArray = exceptionData.genera.filter(entry => entry.language.name === 'ko');
+
+      if (exceptionArray.length > 0) {
+        const exceptionDivision = exceptionArray[0].genus;
+  
+        return exceptionDivision;
+      } else {
+        // 'ko' 언어로 된 항목이 없을 때 처리
+        console.error('No Korean division found for the Pokémon.');
+        return null;
+      }
+    }
     
     const response = await axios.get(`${baseURL}/pokemon-species/${pokemonName}`);
     const speciesData = response.data;
