@@ -4,8 +4,8 @@ import {
   getAllItemAPI,
   getItemImageURL,
   getKoreanItemDescription 
-} from "./routes/api";
-import Item from "./components/itemCard";
+} from "./api/itemApi";
+import Item from "./components/item/itemCard";
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
 import { useInView } from "react-intersection-observer";
 

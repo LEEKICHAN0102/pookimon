@@ -5,7 +5,6 @@ import { QueryClient,QueryClientProvider } from 'react-query';
 import './styles/index.css';
 import App from './App';
 import Tool from './Tool';
-import Search from './Search';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,7 +17,6 @@ root.render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/tools" element={<Tool />} />
-            <Route path="/search" element={<Search />} />
           </Routes>
       </Router>
     </QueryClientProvider>

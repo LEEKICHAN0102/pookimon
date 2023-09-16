@@ -8,7 +8,6 @@ function Header() {
     setMenuOpen(!isMenuOpen);
   };
 
-
   return (
       <nav className="bg-teal-500 p-6 lg:px-16 md:px-12 fixed top-0 left-0 w-full" style={{zIndex:10}}>
         <div className="flex items-center justify-between flex-wrap">
@@ -31,9 +30,6 @@ function Header() {
               </Link>
               <Link to="/tools" href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4 transition-all">
                 도구/아이템
-              </Link>
-              <Link to="search" href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white transition-all">
-                검색
               </Link>
             </div>
           </div>

@@ -1,9 +1,9 @@
 import React,{ useState,useEffect} from "react";
 import { Button, Modal } from 'flowbite-react';
-import colors from "../color";
-import typeIcons from "../icon";
+import colors from "../../color";
+import typeIcons from "../../icon";
 import LazyLoad from "react-lazy-load";
-import Loader from "./loader";
+import Loader from "../loader";
 import Toggle from "./toggle";
 
 function Detail({ koreanName,imageUrl,pokemonType,pokemonAbilities,koreanPokemonType,koreanDescription,officialArtwork,koreanDivision,koreanAbilities,shinyArtwork}) {

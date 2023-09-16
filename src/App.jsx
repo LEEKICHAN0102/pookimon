@@ -12,8 +12,8 @@ import {
   getPokemonAbilities,
   getKoreanPokemonAbilities, 
   getShinyOfficialArtwork,
-} from "./routes/api";
-import Card from "./components/pokemonCard.jsx"; // Card 컴포넌트 임포트
+} from "./api/pokemonApi";
+import Card from "./components/pokemon/pokemonCard.jsx"; // Card 컴포넌트 임포트
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
 import { useInView } from "react-intersection-observer";
 
@@ -107,12 +107,12 @@ function App() {
     uploadData();
   }, [inView]);
 
-  // console.log({pokemonList,imageUrls})
+
 
   return (
     <div className="font-custom ">
       <Header />
-      <div className="px-16 sm:grid sm:grid-cols-1 md:grid md:grid-cols-2 grid grid-cols-4 gap-4 mt-32">
+      <div className=" px-16 sm:grid sm:grid-cols-1 md:grid md:grid-cols-2 grid grid-cols-4 gap-4 mt-32">
         {pokemonList.map((pokemon, index) => (
           <Card
             key={index}

@@ -1,9 +1,9 @@
 import React from "react";
 import Detail from "./pokemonDetail";
-import colors from "../color";
-import typeIcons from "../icon";
+import colors from "../../color";
+import typeIcons from "../../icon";
 import LazyLoad from "react-lazy-load";
-import Loader from "./loader";
+import Loader from "../loader";
 
 function Card({pokemon,pokemonId,pokemonAbilities,imageUrl,koreanName,pokemonType,koreanPokemonType,koreanDescription,officialArtwork,shinyArtwork,koreanDivision,koreanAbilities}){
   function getTypeColor(type) {

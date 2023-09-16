@@ -1,7 +1,7 @@
 import React,{ useState,useEffect} from "react";
 import { Button, Modal } from 'flowbite-react';
 import LazyLoad from "react-lazy-load";
-import Loader from "./loader";
+import Loader from "../loader";
 
 function ItemDetail({koreanName,imageUrl,koreanItemDescription }) {
   const [openModal, setOpenModal] = useState();

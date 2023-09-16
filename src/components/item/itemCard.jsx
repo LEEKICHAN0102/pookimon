@@ -1,7 +1,7 @@
 import React from "react";
 import ItemDetail from "./itemDetail";
 import LazyLoad from "react-lazy-load";
-import Loader from "./loader";
+import Loader from "../loader";
 
 function Item({item,koreanName,imageUrl,koreanItemDescription}){
 
