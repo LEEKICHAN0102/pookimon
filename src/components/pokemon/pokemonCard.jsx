@@ -11,7 +11,7 @@ function Card({pokemon,pokemonId,pokemonAbilities,imageUrl,koreanName,pokemonTyp
   }
   
   return(
-    <div  className="flex flex-col  rounded-xl border-4 border-blue-200 w-full h-56 cursor-pointer">
+    <div  className="flex flex-col  rounded-xl border-4 border-blue-200 w-full h-56 ">
       <div className="flex bg-blue-200 w-full h-8 rounded justify-between items-center px-4">
         <div>
           <span className="text-sm">no. </span>

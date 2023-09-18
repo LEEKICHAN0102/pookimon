@@ -11,7 +11,7 @@ function Item({item,koreanName,imageUrl,koreanItemDescription}){
         {/* <span className="text-sm">{`no.${pokemonId}`}</span> */}
         <span className="font-semibold text-sm">{koreanName}</span>
       </div>
-      <LazyLoad className="flex items-center justify-center m-auto hover:scale-125 transition-all cursor-pointer">
+      <LazyLoad className="flex items-center justify-center m-auto hover:scale-125 transition-all ">
         {imageUrl ? (
           <img  src={imageUrl} alt={item.name} className="w-16 h-16" />)
             :(
