@@ -1,12 +1,36 @@
-### 포켓몬 API _ fintendo-pokemon
+### fintendo - pookimon
 
->남은 작업
+## Preview
 
-### 1. 모달 BG 설정 // officialArtwork Loader -> 모달이 열릴 때 officialArtwork 가 열리면서 창이 이상해짐
-### 2. 검색 기능  
-### 5. Dark Mode , 영어 버전 추가
-### 6. 로딩 속도 최적화
-### 7. 반응형 디자인
-### 8. 코드 리팩토링 
+<img src="./screenshot/preview1.PNG" width="600" height="400" /><br>
 
->> Deadline_23.09.17
+<img src="./screenshot/preview2.PNG" width="600" height="400" /><br>
+
+<img src="./screenshot/preview3.PNG" width="600" height="400" /><br>
+
+<img src="./screenshot/preview4.PNG" width="600" height="400" /><br>
+
+
+src
+|-- api
+|   |-- itemApi.jsx
+|   |-- pokemonApi.jsx
+|-- components
+|   |-- item
+|   |-- | --itemCard.jsx
+|   |-- | --itemDetail.jsx
+|   |-- pokemon
+|   |-- | --pokemonCard.jsx
+|   |-- | --pokemonDetail.jsx
+|   |-- header.jsx
+|   |-- loader.jsx
+|   icons
+|   |-- bug.svg (...pokemonType)
+|-- styles
+|   |-- index.css
+|-- color.jsx
+|-- icon.jsx
+|-- Pokemon.jsx
+|-- Tool.jsx
+|-- index.jsx
+

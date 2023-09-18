@@ -17,7 +17,7 @@ import Card from "./components/pokemon/pokemonCard.jsx"; // Card 컴포넌트 �
 import Header from "./components/header.jsx"; // Header 컴포넌트 임포트
 import { useInView } from "react-intersection-observer";
 
-function App() {
+function Pokemon() {
   const LIMIT_PER_PAGE = 20;
 
   const [pokemonList, setPokemonList] = useState([]);
@@ -136,4 +136,4 @@ function App() {
   );
 }
 
-export default App;
+export default Pokemon;

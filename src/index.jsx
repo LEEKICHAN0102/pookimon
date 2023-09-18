@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // 수정된 import 구문
 import { QueryClient,QueryClientProvider } from 'react-query';
 import './styles/index.css';
-import App from './App';
+import Pokemon from './Pokemon';
 import Tool from './Tool';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,7 +15,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <Router>
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Pokemon />} />
             <Route path="/tools" element={<Tool />} />
           </Routes>
       </Router>
